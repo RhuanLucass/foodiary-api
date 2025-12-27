@@ -10,11 +10,11 @@ export const usersTable = pgTable("users", {
   birthDate: date('birth_date').notNull(),
   height: integer().notNull(),
   weight: integer().notNull(),
-  activityLavel: integer('activity_level').notNull(),
+  activityLevel: integer('activity_level').notNull(),
 
   // Goals
   calories: integer().notNull(),
   protein: integer().notNull(),
-  carbs: integer().notNull(),
+  carbohydrates: integer().notNull(),
   fats: integer().notNull(),
 });

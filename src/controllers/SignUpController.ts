@@ -5,6 +5,7 @@ import { db } from "../db";
 import { eq } from "drizzle-orm";
 import { usersTable } from "../db/schema";
 import { id } from "zod/locales";
+import { hash } from "bcryptjs";
 
 const schema = z.object({
   goal: z.enum(['lose', 'maintain', 'gain']),
@@ -46,12 +47,19 @@ export class SignUpController {
       return conflict({ error: 'This email is already in use.' });
     }
 
+    // Desestruturando data
+    const { account, ...rest } = data;
+
+    // Hash da senha
+    const hashedPassword = await hash(data.account.password, 8);
+
     // Cria o usuário no banco de dados
     const [user] = await db
       .insert(usersTable)
       .values({
-        ...data,
-        ...data.account,
+        ...rest,
+        ...account,
+        password: hashedPassword,
         calories: 0,
         carbohydrates: 0,
         protein: 0,

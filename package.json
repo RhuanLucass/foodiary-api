@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "sls offline start --reloadHandler"
+    "dev": "set TSX_TMPDIR=%TEMP%\\tsx&& sls offline start --reloadHandler"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
+    "bcryptjs": "^3.0.3",
     "drizzle-orm": "^0.45.1",
     "zod": "^4.2.1"
   }

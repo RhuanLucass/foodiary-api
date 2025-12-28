@@ -27,3 +27,10 @@ export function conflict(body?: Record<string, any>): HttpResponse {
     ...(body !== undefined && { body }),
   }
 }
+
+export function unauthorized(body?: Record<string, any>): HttpResponse {
+  return {
+    statusCode: 401,
+    ...(body !== undefined && { body }),
+  }
+}

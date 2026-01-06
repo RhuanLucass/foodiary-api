@@ -14,7 +14,7 @@ export const usersTable = pgTable("users", {
 
   // Goals
   calories: integer().notNull(),
-  protein: integer().notNull(),
+  proteins: integer().notNull(),
   carbohydrates: integer().notNull(),
   fats: integer().notNull(),
 });

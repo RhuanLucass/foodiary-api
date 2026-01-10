@@ -48,7 +48,20 @@ functions:
           method: POST
   listMeals:
     handler: src/functions/listMeals.handler
-    events:
+    events: 
       - httpApi:
           path: /meals
-          method: GET   
+          method: GET
+  getMealById:
+    handler: src/functions/getMealById.handler
+    events:
+      - httpApi:
+          path: /meals/{mealId}
+          method: GET
+
+resources:
+  Resources:
+    UploadsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: foodiary-rhuanlucass

@@ -1,5 +1,5 @@
 org: rhuanlucass
-service: foodiary-api
+service: foodiary-api-v2
 
 plugins:
   - serverless-offline
@@ -99,7 +99,7 @@ resources:
     UploadsBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: foodiary-rhuanlucass;
+        BucketName: rhuanlucass-foodiary
     MealsQueue:
       Type: AWS::SQS::Queue
       Properties:

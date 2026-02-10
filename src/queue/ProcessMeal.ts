@@ -1,6 +1,9 @@
 import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { mealsTable } from "../db/schema";
+import { transcribeAudio } from "../services/ai";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { s3Client } from "../clients/s3Client";
 
 export class ProcessMeal {
   static async process({fileKey}: {fileKey: string}) {
@@ -21,7 +24,28 @@ export class ProcessMeal {
       .where(eq(mealsTable.id, meal.id));
 
     try {
-      // CHAMAR A IA
+      if(meal.inputType === 'audio') {
+        const command = new GetObjectCommand({
+          Bucket: process.env.UPLOADS_BUCKET_NAME,
+          Key: meal.inputFileKey!
+        })
+
+        const {Body} = await s3Client.send(command);
+
+        if(!Body || !(Body instanceof ReadableStream)) {
+          throw new Error('Cannot load the audio file.')
+        }
+        
+        const chunks = [];
+        for await (const chunk of Body) {
+          chunks.push(chunk);
+        }
+
+        const audioFileBuffer = Buffer.concat(chunks);
+
+        const transcription = await transcribeAudio(audioFileBuffer);
+        console.log({transcription});
+      }
 
       await db.update(mealsTable)
       .set({

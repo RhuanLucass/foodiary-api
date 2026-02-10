@@ -20,6 +20,7 @@ provider:
         - Effect: Allow
           Action:
             - s3:PutObject
+            - s3:GetObject
           # Resource: !GetAtt UploadsBucket.Arn
           Resource: !Sub '${UploadsBucket.Arn}/*'
         - Effect: Allow

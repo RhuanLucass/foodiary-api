@@ -21,7 +21,6 @@ provider:
           Action:
             - s3:PutObject
             - s3:GetObject
-          # Resource: !GetAtt UploadsBucket.Arn
           Resource: !Sub '${UploadsBucket.Arn}/*'
         - Effect: Allow
           Action: sqs:SendMessage
@@ -99,8 +98,9 @@ resources:
   Resources:
     UploadsBucket:
       Type: AWS::S3::Bucket
+      DeletionPolicy: Retain
       Properties:
-        BucketName: rhuanlucass-foodiary
+        BucketName: rhuanlucass-foodiary-${sls:stage}
     MealsQueue:
       Type: AWS::SQS::Queue
       Properties:

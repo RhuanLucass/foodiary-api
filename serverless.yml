@@ -113,3 +113,14 @@ resources:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: meals-queue-dlq
+  Outputs:
+    HttpApiUrl:
+      Description: URL do HTTP API Gateway
+      Value:
+        Fn::Join:
+          - ''
+          - - 'https://'
+            - !Ref HttpApi
+            - '.execute-api.'
+            - !Ref AWS::Region
+            - '.amazonaws.com'

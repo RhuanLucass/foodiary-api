@@ -1,5 +1,5 @@
 org: rhuanlucass
-service: foodiary-api-v2
+service: foodiary-api
 
 plugins:
   - serverless-offline
@@ -33,14 +33,14 @@ build:
   esbuild:
     minify: true
     sourcemap: false
-    bundle: true
-    platform: node
-    target: node22
-    format: esm
-    banner:
-      js: "import { createRequire } from 'module';const require = createRequire(import.meta.url);"
-    external:
-      - '@aws-sdk/*'
+    # bundle: true
+    # platform: node
+    # target: node22
+    # format: esm
+    # banner:
+    #   js: "import { createRequire } from 'module';const require = createRequire(import.meta.url);"
+    # external:
+    #   - '@aws-sdk/*'
 
 functions:
   signin:
@@ -98,9 +98,9 @@ resources:
   Resources:
     UploadsBucket:
       Type: AWS::S3::Bucket
-      DeletionPolicy: Retain
+      # DeletionPolicy: Retain
       Properties:
-        BucketName: rhuanlucass-foodiary-${sls:stage}
+        BucketName: rhuanlucass-foodiary-v1-uploads
     MealsQueue:
       Type: AWS::SQS::Queue
       Properties:
@@ -113,14 +113,14 @@ resources:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: meals-queue-dlq
-  Outputs:
-    HttpApiUrl:
-      Description: URL do HTTP API Gateway
-      Value:
-        Fn::Join:
-          - ''
-          - - 'https://'
-            - !Ref HttpApi
-            - '.execute-api.'
-            - !Ref AWS::Region
-            - '.amazonaws.com'
+#   Outputs:
+#     HttpApiUrl:
+#       Description: URL do HTTP API Gateway
+#       Value:
+#         Fn::Join:
+#           - ''
+#           - - 'https://'
+#             - !Ref HttpApi
+#             - '.execute-api.'
+#             - !Ref AWS::Region
+#             - '.amazonaws.com'

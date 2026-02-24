@@ -1,0 +1,16 @@
+
+Deploying "foodiary-api" to stage "dev" (us-east-1)
+(node:55591) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✖ Stack foodiary-api-dev failed to deploy (19s)
+
+✖ ServerlessError2: Stack:arn:aws:cloudformation:us-east-1:211958954552:stack/foodiary-api-dev/69b916c0-0d92-11f1-b59d-0affdc847987 is in UPDATE_IN_PROGRESS state and can not be updated.
+    at file:///Users/mdc/.serverless/releases/4.33.0/package/dist/sf-core.js:1460:36
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async persistentRequest (file:///Users/mdc/.serverless/releases/4.33.0/package/dist/sf-core.js:1459:1984)
+
+For help, try the following:
+  • Run the command again with the "--debug" option
+  • Run "serverless support"
+  • Review the docs: https://www.serverless.com/framework/docs/
+

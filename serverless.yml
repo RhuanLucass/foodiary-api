@@ -33,14 +33,7 @@ build:
   esbuild:
     minify: true
     sourcemap: false
-    # bundle: true
-    # platform: node
-    # target: node22
-    # format: esm
-    # banner:
-    #   js: "import { createRequire } from 'module';const require = createRequire(import.meta.url);"
-    # external:
-    #   - '@aws-sdk/*'
+    format: cjs
 
 functions:
   signin:

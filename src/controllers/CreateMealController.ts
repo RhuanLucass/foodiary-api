@@ -28,6 +28,7 @@ export class CreateMealController {
     const command = new PutObjectCommand({
       Bucket: process.env.S3_BUCKET_NAME!,
       Key: fileKey,
+      ContentType: data.fileType,
     });
     
     const presignedUrl = await getSignedUrl(s3Client, command, { expiresIn: 600 });
@@ -47,7 +48,7 @@ export class CreateMealController {
 
     return created({
       mealId: meal.id,
-      uploadUrl: presignedUrl,
+      uploadURL: presignedUrl,
     });
   }
 }

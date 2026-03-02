@@ -33,13 +33,13 @@ export class ProcessMeal {
 
         const { Body } = await s3Client.send(command);
 
-        if (!Body || !(Body instanceof ReadableStream)) {
+        if (!Body) {
           throw new Error("Cannot load the audio file.");
         }
 
-        const chunks = [];
-        for await (const chunk of Body) {
-          chunks.push(chunk);
+        const chunks: Buffer[] = [];
+        for await (const chunk of Body as AsyncIterable<Buffer>) {
+          chunks.push(Buffer.from(chunk));
         }
 
         const audioFileBuffer = Buffer.concat(chunks);
@@ -67,6 +67,7 @@ export class ProcessMeal {
         })
         .where(eq(mealsTable.id, meal.id));
     } catch (error) {
+      console.error("Erro ao processar meal:", error);
       await db
         .update(mealsTable)
         .set({ status: "failed" })

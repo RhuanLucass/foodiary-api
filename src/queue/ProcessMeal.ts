@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { mealsTable } from "../db/schema";
-import { transcribeAudio } from "../services/ai";
+import { getMealDetailsFromText, transcribeAudio } from "../services/ai";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { s3Client } from "../clients/s3Client";
 
@@ -25,6 +25,10 @@ export class ProcessMeal {
       .where(eq(mealsTable.id, meal.id));
 
     try {
+      let icon = "";
+      let name = "";
+      let foods = [];
+
       if (meal.inputType === "audio") {
         const command = new GetObjectCommand({
           Bucket: process.env.S3_BUCKET_NAME,
@@ -45,29 +49,25 @@ export class ProcessMeal {
         const audioFileBuffer = Buffer.concat(chunks);
 
         const transcription = await transcribeAudio(audioFileBuffer);
-        console.log({ transcription });
+
+        const mealDetails = await getMealDetailsFromText({
+          createdAt: new Date(),
+          text: transcription,
+        });
+
+        icon = mealDetails.icon;
+        name = mealDetails.name;
+        foods = mealDetails.foods;
       }
 
-      await db
-        .update(mealsTable)
-        .set({
-          status: "success",
-          name: "Café da manhã",
-          icon: "🍞",
-          foods: [
-            {
-              name: "Pão",
-              quantity: "2 fatias",
-              calories: 100,
-              proteins: 4,
-              carbohydrates: 20,
-              fats: 1,
-            },
-          ],
-        })
-        .where(eq(mealsTable.id, meal.id));
+      await db.update(mealsTable).set({
+        status: "success",
+        name,
+        icon,
+        foods,
+      });
     } catch (error) {
-      console.error("Erro ao processar meal:", error);
+      console.log(error);
       await db
         .update(mealsTable)
         .set({ status: "failed" })

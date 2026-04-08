@@ -27,7 +27,7 @@
     "@aws-sdk/s3-request-presigner": "^3.966.0",
     "@neondatabase/serverless": "^1.0.2",
     "bcryptjs": "^3.0.3",
-    "drizzle-orm": "^0.45.1",
+    "drizzle-orm": "^0.45.2",
     "jsonwebtoken": "^9.0.3",
     "openai": "^6.19.0",
     "zod": "^4.2.1"
